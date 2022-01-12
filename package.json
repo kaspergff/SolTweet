@@ -1,0 +1,19 @@
+{
+    "name": "soltweet-contract",
+    "version": "0.0.1",
+    "description": "Solana smart contract for SolTweet app",
+    "dependencies": {
+        "@project-serum/anchor": "^0.19.0",
+        "@types/chai": "^4.3.0"
+    },
+    "devDependencies": {
+        "@types/mocha": "^9.0.0",
+        "@types/chai": "^4.3.0",
+        "chai": "^4.3.4",
+        "mocha": "^9.0.3",
+        "ts-mocha": "^8.0.0",
+        "typescript": "^4.3.5"
+    },
+    "author": "Kasper de Graaff",
+    "license": "MIT"
+}
