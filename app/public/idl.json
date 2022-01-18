@@ -1,0 +1,165 @@
+{
+  "version": "0.1.0",
+  "name": "contract_sol_tweet",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "baseAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "addPost",
+      "accounts": [
+        {
+          "name": "baseAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "postDescription",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "likePost",
+      "accounts": [
+        {
+          "name": "baseAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "postDescription",
+          "type": "string"
+        },
+        {
+          "name": "postAuthor",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "tipAuthor",
+      "accounts": [
+        {
+          "name": "from",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "to",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "BaseAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "totalPosts",
+            "type": "u64"
+          },
+          {
+            "name": "postList",
+            "type": {
+              "vec": {
+                "defined": "PostStruct"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "PostStruct",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "postDescription",
+            "type": "string"
+          },
+          {
+            "name": "userAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "likedBy",
+            "type": {
+              "vec": "publicKey"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6123,
+      "name": "NoDescription",
+      "msg": "NoDescription Error message"
+    },
+    {
+      "code": 6456,
+      "name": "PostToLong",
+      "msg": "PostToLong Error message"
+    },
+    {
+      "code": 6789,
+      "name": "TwoLikeError",
+      "msg": "Post allready liked"
+    }
+  ],
+  "metadata": {
+    "address": "FfpFvZt8RBg57TTMSe36saHKLTngeJzKLcc9dMDrgR8t"
+  }
+}
