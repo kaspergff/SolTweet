@@ -24,6 +24,7 @@ const TipAuthorButton = (props: TipAuthorButtonProps) => {
       receiver: props.userAddress
     }
     await tipAuthor(tipProps)
+    setTipAmount('')
     setShowModal(false)
   }
 
