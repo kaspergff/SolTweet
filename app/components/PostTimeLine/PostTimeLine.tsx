@@ -3,6 +3,7 @@ import { FC, Key } from "react";
 
 import Avatar from "../Avatar/Avatar";
 import LikeButton from "../LikeButton/LikeButton";
+import TipAuthorButton from "../TipAuthorButton/TipAuthorButton";
 
 declare global {
   interface Post {
@@ -18,8 +19,8 @@ interface PostTimeLineProps {
 export default function PostTimeLine(props: PostTimeLineProps) {
   return (
     <div className="flex flex-col">
-      {props.posts.map(post => (
-        <Post {...post} />
+      {props.posts.map((post, index) => (
+        <Post {...post} key={props.posts[index].postDescription} />
       ))}
     </div>
   );
@@ -39,8 +40,13 @@ const Post: FC<Post> = ({ userAddress, postDescription, likedBy }) => {
           {postDescription}
         </div>
       </div>
-      <div>
-        <LikeButton userAddress={userAddress.toString()} likedBy={likedBy} />
+      <div className="flex flex-row items-start gap-3">
+        <TipAuthorButton userAddress={userAddress} postDescription={postDescription} likedBy={likedBy} />
+        <LikeButton
+          postDescription={postDescription}
+          userAddress={userAddress.toString()}
+          likedBy={likedBy}
+        />
       </div>
     </div>
   );

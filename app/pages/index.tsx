@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 
 import { Program, Provider, web3, Idl } from "@project-serum/anchor";
 
-// hooks
+// lib
 import getProvider from "../lib/getProvider";
 import getProgram from "../lib/getProgram";
+import createBaseAccount from "../lib/createBaseAccount";
 
 // components
 import NavBar from "../components/NavBar/NavBar";
@@ -13,7 +14,6 @@ import PostTimeLine from "../components/PostTimeLine/PostTimeLine";
 
 // keypair
 import kp from "../lib/keypair.json";
-
 
 // SystemProgram is a reference to the Solana runtime!
 const { SystemProgram } = web3;
@@ -36,32 +36,6 @@ const App = () => {
   const [walletAddress, setWalletAddress] = useState("");
   const [postList, setPostList] = useState<Post[]>([]);
   const [inputValue, setInputValue] = useState("");
-
-  // function to initialize the baseaccount
-  // base account is initialize so its not needed anymore
-  const createPostAccount = async () => {
-    const provider = getProvider();
-    const program = getProgram()
-    try {
-      console.log("ping");
-      await program.rpc.initialize({
-        accounts: {
-          baseAccount: baseAccount.publicKey,
-          user: provider.wallet.publicKey,
-          systemProgram: SystemProgram.programId,
-        },
-        signers: [baseAccount],
-      });
-      console.log(
-        "Created a new BaseAccount w/ address:",
-        baseAccount.publicKey.toString()
-      );
-      await getPostList();
-    } catch (error) {
-      console.log("Error creating BaseAccount account:", error);
-    }
-  };
-
   /*
    * This function holds the logic for deciding if a Phantom Wallet is
    * connected or not
@@ -109,15 +83,14 @@ const App = () => {
 
   // function to fetch the posts from the blockchain
   const getPostList = async () => {
-    const program = getProgram()
+    const program = getProgram();
     try {
       const account = await program.account.baseAccount.fetch(
         baseAccount.publicKey
       );
-      let list:Post[] = account.postList as Post[]
+      let list: Post[] = account.postList as Post[];
       console.log("Got the account", account.postList);
       setPostList(list);
-
     } catch (error) {
       console.log("Error in setPostList: ", error);
       setPostList([]);
@@ -126,7 +99,7 @@ const App = () => {
 
   const sendPost = async (postDescription: string) => {
     const provider = getProvider();
-    const program = getProgram()
+    const program = getProgram();
     if (postDescription.length === 0) {
       console.log("No post description given!");
       return;
@@ -148,14 +121,14 @@ const App = () => {
     }
   };
 
-
-
   const renderPostTimeLine = () => {
-    if (postList === null) {
+    if (postList.length === 0) {
+      console.log("initialize baseAccount");
       return (
+        // means the base account is not yet initialized
         <div>
           <p>Erro</p>
-          <button onClick={createPostAccount}>
+          <button onClick={createBaseAccount}>
             Do One-Time Initialization For post Program Account
           </button>
         </div>
@@ -163,9 +136,7 @@ const App = () => {
     }
     // Otherwise, we're good! Account exists. User can submit GIFs.
     else {
-      console.log("renderPostTimeLine" ,postList, postList.length);
-
-      
+      console.log("renderPostTimeLine", postList, postList.length);
       return <PostTimeLine posts={postList} />;
     }
   };
