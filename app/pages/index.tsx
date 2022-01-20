@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
-import { Program, Provider, web3, Idl } from "@project-serum/anchor";
+import { web3, } from "@project-serum/anchor";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 // lib
 import getProvider from "../lib/getProvider";
@@ -15,8 +16,6 @@ import PostTimeLine from "../components/PostTimeLine/PostTimeLine";
 // keypair
 import kp from "../lib/keypair.json";
 
-// SystemProgram is a reference to the Solana runtime!
-const { SystemProgram } = web3;
 
 // Create a keypair for the account that will hold the Post data.
 const arr = Object.values(kp._keypair.secretKey);
@@ -33,53 +32,10 @@ declare global {
 
 const App = () => {
   // State
-  const [walletAddress, setWalletAddress] = useState("");
   const [postList, setPostList] = useState<Post[]>([]);
-  const [inputValue, setInputValue] = useState("");
-  /*
-   * This function holds the logic for deciding if a Phantom Wallet is
-   * connected or not
-   */
-  const checkIfWalletIsConnected = async (onlyIfTrusted: Boolean) => {
-    try {
-      const { solana } = window;
-      if (solana) {
-        if (solana.isPhantom) {
-          console.log("Phantom wallet found!");
-          /*
-           * The solana object gives us a function that will allow us to connect
-           * directly with the user's wallet!
-           */
-          const response = await solana.connect({
-            onlyIfTrusted: onlyIfTrusted,
-          });
-          console.log(
-            "Connected with Public Key:",
-            response.publicKey.toString()
-          );
-          setWalletAddress(response.publicKey.toString());
-        }
-      } else {
-        alert("Solana object not found! Get a Phantom Wallet 👻");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
-  // function that connects / disconnects wallet
-  const setWalletConnection = async () => {
-    if (walletAddress === "") {
-      // means wallet is not connected
-      checkIfWalletIsConnected(false);
-    } else {
-      // means wallet is connected
-      const { solana } = window;
-      solana.disconnect();
-      solana.on("disconnect", () => console.log("Disconnected!"));
-      setWalletAddress("");
-    }
-  };
+  const { publicKey, sendTransaction } = useWallet();
+
 
   // function to fetch the posts from the blockchain
   const getPostList = async () => {
@@ -104,7 +60,6 @@ const App = () => {
       console.log("No post description given!");
       return;
     }
-    setInputValue("");
     console.log("post description:", postDescription);
     try {
       await program.rpc.addPost(postDescription, {
@@ -141,38 +96,23 @@ const App = () => {
     }
   };
 
-  /*
-   * When our component first mounts, let's check to see if we have a connected
-   * Phantom Wallet
-   */
+  // checks if user is connected with a wallet
   useEffect(() => {
-    const onLoad = async () => {
-      await checkIfWalletIsConnected(true);
-    };
-    onLoad();
-  }, []);
-
-  useEffect(() => {
-    if (walletAddress) {
+    if (publicKey) {
       console.log("Fetching Posts");
       getPostList();
     }
-  }, [walletAddress]);
+  }, [publicKey]);
 
   return (
     <div className="flex flex-col  min-h-screen dark:bg-zinc-800">
-      <NavBar
-        {...{
-          connectWallet: setWalletConnection,
-          walletAddress: walletAddress,
-        }}
-      />
+      <NavBar />
       <main className="flex flex-col p-4">
-        {walletAddress && (
-          <PostForm {...{ address: walletAddress, sendPost: sendPost }} />
+        {publicKey && (
+          <PostForm {...{ address: publicKey.toString(), sendPost: sendPost }} />
         )}
 
-        {walletAddress && renderPostTimeLine()}
+        {publicKey && renderPostTimeLine()}
       </main>
     </div>
   );

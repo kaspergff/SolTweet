@@ -1,12 +1,8 @@
 import ThemeToggler from "../ThemeToggler/ThemeToggler";
 import { useTheme } from "next-themes";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
-interface Props {
-  connectWallet: () => void;
-  walletAddress: String;
-}
-
-export default function NavBar(props: Props) {
+export default function NavBar() {
   const { theme, setTheme } = useTheme();
 
   return (
@@ -43,17 +39,10 @@ export default function NavBar(props: Props) {
                 </div>
               </div> */}
             </div>
-              <div className="ml-4 flex flex-row items-center md:ml-6">
-                <ThemeToggler />
-                <button
-                  onClick={props.connectWallet}
-                  type="button"
-                  className="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
-                  {props.walletAddress == ""
-                    ? "Connect Wallet"
-                    : "Disconnect Wallet"}
-                </button>
-              </div>
+            <div className="ml-4 flex flex-row items-center md:ml-6">
+              <ThemeToggler />
+              <WalletMultiButton className="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800" />
+            </div>
             {/* <div className="-mr-2 flex md:hidden">
               <button className="text-zinc-800 dark:text-white hover:text-gray-300 inline-flex items-center justify-center p-2 rounded-md focus:outline-none">
                 <svg
