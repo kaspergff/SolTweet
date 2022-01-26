@@ -7,9 +7,17 @@ export default function ThemeToggler() {
 
   useEffect(() => {
     theme === "light" ? setChecked(false) : setChecked(true);
-  },[checked]);
-  const toggle = () =>
-    theme === "light" ? setTheme("dark") : setTheme("light");
+  }, [checked]);
+  const toggle = () => {
+    if (theme === "light") {
+      setTheme("dark");
+      setChecked(true);
+    } else {
+      setTheme("light");
+      setChecked(false);
+    }
+  };
+  // theme === "light" ? {setTheme("dark")} : setTheme("light");
 
   return (
     <div className="relative inline-block w-12 mr-2  align-middle select-none transition duration-[20000000] ease-in">
