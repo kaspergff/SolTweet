@@ -1,20 +1,11 @@
-import { useEffect, useState } from "react";
-
-
 import { useTheme } from "next-themes";
 
 export default function ThemeToggler() {
-  const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
-
-  // When mounted on client, now we can show the UI
-  useEffect(() => setMounted(true), []);
-
-
-  if (!mounted) return null;
 
   const toggle = () =>
     theme === "light" ? setTheme("dark") : setTheme("light");
+    
   return (
     <div className="relative inline-block w-12 mr-2  align-middle select-none transition duration-200 ease-in">
       <input

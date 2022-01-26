@@ -78,15 +78,10 @@ const App = () => {
 
   const renderPostTimeLine = () => {
     if (postList.length === 0) {
-      console.log("initialize baseAccount");
+      // console.log("initialize baseAccount");
       return (
         // means the base account is not yet initialized
-        <div>
-          <p>Erro</p>
-          <button onClick={createBaseAccount}>
-            Do One-Time Initialization For post Program Account
-          </button>
-        </div>
+          console.log('No Post yet')
       );
     }
     // Otherwise, we're good! Account exists. User can submit GIFs.
@@ -109,7 +104,7 @@ const App = () => {
       <NavBar />
       <main className="flex flex-col p-4">
         {publicKey && (
-          <PostForm {...{ address: publicKey.toString(), sendPost: sendPost }} />
+          <PostForm {...{ address: publicKey, sendPost: sendPost }} />
         )}
 
         {publicKey && renderPostTimeLine()}
