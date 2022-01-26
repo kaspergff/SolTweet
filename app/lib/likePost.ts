@@ -19,10 +19,11 @@ const likePost = async (props:likePostProps) => {
           user: getProvider().wallet.publicKey,
         },
       });
-      console.log("Post successfully liked");
+      return true
 
     } catch (error) {
       console.log("Error liking Post:", error);
+      return false
     }
   };
 

@@ -11,7 +11,7 @@ declare global {
   interface Post {
     userAddress: PublicKey;
     postDescription: string;
-    likedBy: string[];
+    likedBy: PublicKey[];
   }
 }
 interface PostTimeLineProps {

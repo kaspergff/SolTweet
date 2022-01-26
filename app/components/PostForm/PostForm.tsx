@@ -2,7 +2,7 @@ import { formatAddress } from "@/lib/utils";
 import { PublicKey } from "@solana/web3.js";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import Avatar from "../Avatar/Avatar";
 import ProfileLink from "../ProfileLink/ProfileLink";
 
@@ -20,14 +20,19 @@ export default function PostForm(props: Props) {
     setPostText(value);
   };
 
+  const sendPost = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    await props.sendPost(postText);
+    setPostText("");
+  };
+
   return (
     <form
       className=" w-full md:w-4/5 lg:w-3/5 mx-auto shadow "
       onSubmit={event => {
-        event.preventDefault();
-        props.sendPost(postText);
+        sendPost(event);
       }}>
-      <div className="p-4 bg-gray-100 dark:bg-zinc-800 border-t-2 dark:border-purple-600 rounded-lg bg-opacity-5">
+      <div className="p-4 bg-gray-100 dark:bg-zinc-800 border-t-1 dark:border-purple-600 rounded-lg bg-opacity-5">
         <div className=" mx-auto md:w-full md:mx-0">
           <div className="flex flex-row items-center ">
             <div className="w-12 bg-purple-300 h-12 rounded-full">

@@ -28,8 +28,6 @@ const TipAuthorButton:FC<TipAuthorButtonProps> = (props) => {
     setShowModal(false)
   }
 
-
-
   return (
     <>
       <button onClick={() => setShowModal(true)}>
@@ -72,7 +70,7 @@ const TipAuthorButton:FC<TipAuthorButtonProps> = (props) => {
                 {/*header*/}
                 <div className="flex justify-between p-5 border-b border-solid border-blueGray-200 rounded-t gap-3 items-center">
                   <div className="w-12 bg-purple-300 h-12 rounded-full justify-self-start">
-                    <Avatar seed={props.userAddress.toString()} />
+                    <Avatar size="48px" seed={props.userAddress} />
                   </div>
                   <h3 className="p-1 bg-purple-600 max-w-fit bg-opacity-90 rounded-md text-white">
                     Tip address: {props.userAddress.toString()}

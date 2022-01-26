@@ -8,8 +8,9 @@ import {
 import { Program, Provider, web3, Idl } from "@project-serum/anchor";
 
 import getProvider from "./getProvider";
+
 // idl
-import idl from "../public/idl.json";
+import idl from "../../target/idl/contract_sol_tweet.json"
 
 // Get our program's id from the IDL file.
 const programID = new PublicKey(idl.metadata.address);

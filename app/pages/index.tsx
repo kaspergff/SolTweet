@@ -102,7 +102,7 @@ const App = () => {
   return (
     <div className="flex flex-col  min-h-screen dark:bg-zinc-800">
       <NavBar />
-      <main className="flex flex-col p-4">
+      <main className="flex flex-col p-4 dark:brightness-105">
         {publicKey && (
           <PostForm {...{ address: publicKey, sendPost: sendPost }} />
         )}
