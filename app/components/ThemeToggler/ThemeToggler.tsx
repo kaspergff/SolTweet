@@ -7,7 +7,7 @@ export default function ThemeToggler() {
 
   useEffect(() => {
     theme === "light" ? setChecked(false) : setChecked(true);
-  });
+  },[checked]);
   const toggle = () =>
     theme === "light" ? setTheme("dark") : setTheme("light");
 
