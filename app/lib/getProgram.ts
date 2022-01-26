@@ -1,11 +1,8 @@
 //solana imports
 import {
-  Connection,
   PublicKey,
-  clusterApiUrl,
-  Commitment,
 } from "@solana/web3.js";
-import { Program, Provider, web3, Idl } from "@project-serum/anchor";
+import { Program, Idl } from "@project-serum/anchor";
 
 import getProvider from "./getProvider";
 
